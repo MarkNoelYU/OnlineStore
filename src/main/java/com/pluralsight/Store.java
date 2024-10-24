@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -54,8 +56,28 @@ public class Store {
         // id,name,price
         //
         // where id is a unique string identifier, name is the product name,
-        // price is a double value representing the price of the product
+        // price is a double value representing the price
+        //01:23:30e of the product
+        try (BufferedReader reader = new BufferedReader(new FileReader("products.csv"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split("\\|");
+                if (values.length == 3) {
+                    String id = values[0];
+                    String name = values[1];
+                    double price = Double.parseDouble(values[2]);
+                    Product product = new Product(id, name, price);
+                    inventory.add(product);
+
+
+                }
+
+
+            }
+        } catch (Exception e) {
+        }
     }
+
 
     public static void displayProducts(ArrayList<Product> inventory, ArrayList<Product> cart, Scanner scanner) {
         // This method should display a list of products from the inventory,
@@ -63,9 +85,21 @@ public class Store {
         // prompt the user to enter the ID of the product they want to add to
         // their cart. The method should
         // add the selected product to the cart ArrayList.
-    }
+        System.out.println("Available Products:");
+        for (Product product : inventory) {
+            System.out.println(product.getId() + " - " + product.getName() + " - $" + product.getPrice());
+        }
+        ArrayList<String> displayproducts = new ArrayList<String>();
 
-    public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
+}
+
+
+
+
+
+
+
+        public static void displayCart(ArrayList<Product> cart, Scanner scanner, double totalAmount) {
         // This method should display the items in the cart ArrayList, along
         // with the total cost of all items in the cart. The method should
         // prompt the user to remove items from their cart by entering the ID
@@ -84,6 +118,7 @@ public class Store {
         // This method should search the inventory ArrayList for a product with
         // the specified ID, and return the corresponding com.pluralsight.Product object. If
         // no product with the specified ID is found, the method should return
-        // null.
+
+        return null; // Remember to remove it when you write the code for this methode
     }
 }
